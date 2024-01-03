@@ -22,6 +22,12 @@ vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true }) -- same
 vim.keymap.set('v', '<C-c>', '"+y', { noremap = true }) -- yank to system register
 vim.keymap.set('n', '<C-p>', '"+p', { noremap = true }) -- paste from system register
 
+-- stolen from primeagen
+vim.keymap.set('v', "J", ":m '>+1<CR>gv=gv") -- interactive text movement in visual mode
+vim.keymap.set('v', "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set('n', 'n', "nzzzv")
+vim.keymap.set('n', 'N', "Nzzzv")
+
 -- old tabline-statusline config
 vim.cmd([[
 	" TABLINE
