@@ -16,6 +16,7 @@ vim.opt.shiftwidth = 2
 
 -- keymap
 vim.keymap.set('n', '<Space>f', '<Cmd>NvimTreeToggle<CR>', { silent = true }) -- toggle nvim-tree
+vim.keymap.set('n', '<Space>t', '<Cmd>ToggleTerm<CR>', { silent = true }) -- toggle nvim-tree
 vim.keymap.set('n', ':qq<CR>', ':qa<CR>', { noremap = true, silent = true }) -- close everything
 vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true }) -- line-by-line traversal through paragraphs
 vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true }) -- same
@@ -147,6 +148,7 @@ require("lazy").setup({
     },
   },
   'williamboman/mason-lspconfig.nvim',
+	{'akinsho/toggleterm.nvim', version = "*", config = true}
 })
 
 -- plugins setup
