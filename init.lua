@@ -1,3 +1,106 @@
+-- lazy.nvim init
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- lazy.nvim plugins setup
+require("lazy").setup({
+	'thecodinglab/nvim-vlang',
+	'norcalli/nvim-colorizer.lua',
+	'lewis6991/gitsigns.nvim',
+	{ 'windwp/nvim-autopairs', event = "InsertEnter", opts = {} },
+	{ 'Everblush/nvim', name = 'everblush', },
+	{ 'numToStr/Comment.nvim', opts = {}, lazy = false, },
+	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+	{ 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		lazy = false,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			require("nvim-tree").setup {}
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function ()
+			local configs = require("nvim-treesitter.configs")
+
+			configs.setup({
+				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "svelte", "javascript", "html", "v" },
+				sync_install = false,
+				auto_install = true,
+				highlight = { enable = true },
+				indent = { enable = true },
+			})
+		end
+	},
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons",
+		},
+		opts = {},
+	},
+	{
+		'nvim-telescope/telescope.nvim',
+		tag = '0.1.5',
+		dependencies = { 'nvim-lua/plenary.nvim' }
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function() vim.fn["mkdp#util#install"]() end,
+	},
+	{
+		'VonHeikemen/lsp-zero.nvim',
+		branch = 'v3.x',
+		lazy = true,
+		config = false,
+	},
+	{
+		'neovim/nvim-lspconfig',
+		dependencies = { 'hrsh7th/cmp-nvim-lsp' }
+	},
+	-- Autocompletion
+	{
+		'hrsh7th/nvim-cmp',
+		dependencies = { 'L3MON4D3/LuaSnip' },
+	},
+	{
+		"williamboman/mason.nvim",
+		opts = {
+			ui = {
+				border = "rounded",
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = ""
+				}
+			},
+		},
+	},
+	'williamboman/mason-lspconfig.nvim',
+	{'akinsho/toggleterm.nvim', version = "*", config = true}
+})
+
 -- init
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -15,8 +118,14 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 
 -- keymap
-vim.keymap.set('n', '<Space>f', '<Cmd>NvimTreeToggle<CR>', { silent = true }) -- toggle nvim-tree
+vim.keymap.set('n', '<Space>j', '<Cmd>NvimTreeToggle<CR>', { silent = true }) -- toggle nvim-tree
 vim.keymap.set('n', '<Space>t', '<Cmd>ToggleTerm<CR>', { silent = true }) -- toggle nvim-tree
+
+-- telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+
 vim.keymap.set('n', ':qq<CR>', ':qa<CR>', { noremap = true, silent = true }) -- close everything
 vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true }) -- line-by-line traversal through paragraphs
 vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true }) -- same
@@ -47,109 +156,6 @@ vim.cmd([[
 
   autocmd VimEnter * NvimTreeOpen
 ]])
-
--- lazy.nvim init
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
--- lazy.nvim plugins setup
-require("lazy").setup({
-	'thecodinglab/nvim-vlang',
-	'norcalli/nvim-colorizer.lua',
-	'lewis6991/gitsigns.nvim',
-	{ 'windwp/nvim-autopairs', event = "InsertEnter", opts = {} },
-	{ 'Everblush/nvim', name = 'everblush', },
-	{ 'numToStr/Comment.nvim', opts = {}, lazy = false, },
-	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
-	{ 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
-	{
-		"nvim-tree/nvim-tree.lua",
-		version = "*",
-		lazy = false,
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("nvim-tree").setup {}
-		end,
-	},
-	{
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function ()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "svelte", "javascript", "html", "v" },
-				sync_install = false,
-				auto_install = true,
-				highlight = { enable = true },
-				indent = { enable = true },
-			})
-    end
-	 },
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons",
-		},
-		opts = {},
-	},
-	{
-    'nvim-telescope/telescope.nvim',
-		tag = '0.1.5',
-		dependencies = { 'nvim-lua/plenary.nvim' }
-	},
-	{
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    ft = { "markdown" },
-    build = function() vim.fn["mkdp#util#install"]() end,
-	},
-	{
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v3.x',
-    lazy = true,
-    config = false,
-  },
-  {
-    'neovim/nvim-lspconfig',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp' }
-  },
-  -- Autocompletion
-  {
-    'hrsh7th/nvim-cmp',
-    dependencies = { 'L3MON4D3/LuaSnip' },
-  },
-	{
-    "williamboman/mason.nvim",
-    opts = {
-      ui = {
-				border = "rounded",
-				icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = ""
-        }
-			},
-    },
-  },
-  'williamboman/mason-lspconfig.nvim',
-	{'akinsho/toggleterm.nvim', version = "*", config = true}
-})
 
 -- plugins setup
 require("ibl").setup({ indent = { char = "▏" } })
