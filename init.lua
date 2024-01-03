@@ -118,6 +118,25 @@ require("lazy").setup({
     ft = { "markdown" },
     build = function() vim.fn["mkdp#util#install"]() end,
 	},
+	{
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
+    lazy = true,
+    config = false,
+  },
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      {'hrsh7th/cmp-nvim-lsp'},
+    }
+  },
+  -- Autocompletion
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      {'L3MON4D3/LuaSnip'}
+    },
+  },
 })
 
 -- plugins setup
@@ -125,6 +144,10 @@ require("ibl").setup({ indent = { char = "▏" } })
 require('gitsigns').setup()
 require('colorizer').setup()
 require('lualine').setup()
+
+require('lsp-zero').on_attach(function(client, bufnr)
+  lsp_zero.default_keymaps({buffer = bufnr})
+end)
 
 -- theme setup
 require('everblush').setup({
