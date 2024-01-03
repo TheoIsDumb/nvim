@@ -85,7 +85,7 @@ require("lazy").setup({
 	{
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    config = function () 
+    config = function ()
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
@@ -93,7 +93,7 @@ require("lazy").setup({
 				sync_install = false,
 				auto_install = true,
 				highlight = { enable = true },
-				indent = { enable = true },  
+				indent = { enable = true },
 			})
     end
 	 },
@@ -126,19 +126,15 @@ require("lazy").setup({
   },
   {
     'neovim/nvim-lspconfig',
-    dependencies = {
-      {'hrsh7th/cmp-nvim-lsp'},
-    }
+    dependencies = { 'hrsh7th/cmp-nvim-lsp' }
   },
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
-    dependencies = {
-      {'L3MON4D3/LuaSnip'}
-    },
+    dependencies = { 'L3MON4D3/LuaSnip' },
   },
-	{'williamboman/mason.nvim'},
-  {'williamboman/mason-lspconfig.nvim'},
+	'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
 })
 
 -- plugins setup
@@ -170,3 +166,25 @@ require('everblush').setup({
 	}
 })
 vim.cmd('colorscheme everblush')
+
+-- completion keybinds
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
+
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+    -- `Enter` key to confirm completion
+    ['<CR>'] = cmp.mapping.confirm({select = false}),
+
+    -- Ctrl+Space to trigger completion menu
+    ['<C-Space>'] = cmp.mapping.complete(),
+
+    -- Navigate between snippet placeholder
+    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+
+    -- Scroll up and down in the completion documentation
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(4),
+  })
+})
