@@ -17,10 +17,10 @@ vim.opt.shiftwidth = 2
 -- keymap
 vim.keymap.set('n', '<Space>f', '<Cmd>NvimTreeToggle<CR>', { silent = true }) -- toggle nvim-tree
 vim.keymap.set('n', ':qq<CR>', ':qa<CR>', { noremap = true, silent = true }) -- close everything
-vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true }) -- line-by-line traversal through paragraphs
-vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true, silent = true }) -- same
-vim.api.nvim_set_keymap('v', '<C-c>', '"+y', { noremap = true }) -- yank to system register
-vim.api.nvim_set_keymap('n', '<C-p>', '"+p', { noremap = true }) -- paste from system register
+vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true }) -- line-by-line traversal through paragraphs
+vim.keymap.set('n', 'k', 'gk', { noremap = true, silent = true }) -- same
+vim.keymap.set('v', '<C-c>', '"+y', { noremap = true }) -- yank to system register
+vim.keymap.set('n', '<C-p>', '"+p', { noremap = true }) -- paste from system register
 
 -- old tabline-statusline config
 vim.cmd([[
