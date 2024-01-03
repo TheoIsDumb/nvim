@@ -137,6 +137,8 @@ require("lazy").setup({
       {'L3MON4D3/LuaSnip'}
     },
   },
+	{'williamboman/mason.nvim'},
+  {'williamboman/mason-lspconfig.nvim'},
 })
 
 -- plugins setup
@@ -145,9 +147,17 @@ require('gitsigns').setup()
 require('colorizer').setup()
 require('lualine').setup()
 
-require('lsp-zero').on_attach(function(client, bufnr)
+local lsp_zero = require('lsp-zero')
+lsp_zero.on_attach(function(client, bufnr)
   lsp_zero.default_keymaps({buffer = bufnr})
 end)
+
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  handlers = {
+    lsp_zero.default_setup,
+  },
+})
 
 -- theme setup
 require('everblush').setup({
