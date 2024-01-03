@@ -133,7 +133,19 @@ require("lazy").setup({
     'hrsh7th/nvim-cmp',
     dependencies = { 'L3MON4D3/LuaSnip' },
   },
-	'williamboman/mason.nvim',
+	{
+    "williamboman/mason.nvim",
+    opts = {
+      ui = {
+				border = "rounded",
+				icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = ""
+        }
+			},
+    },
+  },
   'williamboman/mason-lspconfig.nvim',
 })
 
