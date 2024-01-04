@@ -124,8 +124,8 @@ vim.keymap.set('n', '<Space>t', '<Cmd>ToggleTerm<CR>', { silent = true }) -- tog
 
 -- telescope
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>f', builtin.find_files, {})
+vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
 
 vim.keymap.set('n', ':qq<CR>', ':qa<CR>', { noremap = true, silent = true }) -- close everything
 vim.keymap.set('n', 'j', 'gj', { noremap = true, silent = true }) -- line-by-line traversal through paragraphs
