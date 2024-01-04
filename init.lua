@@ -17,6 +17,7 @@ require("lazy").setup({
 	'thecodinglab/nvim-vlang',
 	'norcalli/nvim-colorizer.lua',
 	'lewis6991/gitsigns.nvim',
+	'ggandor/leap.nvim',
 	{ 'windwp/nvim-autopairs', event = "InsertEnter", opts = {} },
 	{ 'Everblush/nvim', name = 'everblush', },
 	{ 'numToStr/Comment.nvim', opts = {}, lazy = false, },
@@ -162,6 +163,7 @@ require("ibl").setup({ indent = { char = "▏" } })
 require('gitsigns').setup()
 require('colorizer').setup()
 require('lualine').setup()
+require('leap').create_default_mappings()
 
 local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
